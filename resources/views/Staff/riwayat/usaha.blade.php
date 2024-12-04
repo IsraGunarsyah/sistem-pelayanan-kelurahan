@@ -3,6 +3,13 @@
 @section('content')
 
 <div x-data="{ showModal: false, showEditModal: false, surattDetail: {}, editSuratt: {} }">
+
+    @if (session('success'))
+    <div class="p-4 mb-4 text-green-800 bg-green-200 border border-green-300 rounded-md">
+        {{ session('success') }}
+    </div>
+@endif
+
     <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border mb-4 draggable" draggable="true">
         <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
             <h6>Riwayat Surat Keterangan Usaha</h6>
@@ -12,6 +19,7 @@
                 <table class="items-center justify-center w-full mb-0 align-top border-gray-200 text-slate-500">
                     <thead class="align-bottom">
                         <tr>
+                            <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">NOMOR SK KELURAHAN</th>
                             <th class="px-6 py-3 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Nama Pemohon</th>
                             <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">Tanggal Pengajuan</th>
                             <th class="px-6 py-3 pl-2 font-bold text-left uppercase align-middle bg-transparent border-b border-gray-200 shadow-none text-xxs border-b-solid tracking-none whitespace-nowrap text-slate-400 opacity-70">No SK RT</th>
@@ -21,6 +29,9 @@
                     <tbody>
                         @foreach ($usahas as $suratt)
                         <tr>
+                            <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
+                                <p class="mb-0 font-semibold leading-normal text-sm">{{ $suratt->id }}</p>
+                            </td>
                             <td class="p-2 align-middle bg-transparent border-b whitespace-nowrap shadow-transparent">
                                 <p class="mb-0 font-semibold leading-normal text-sm">{{ $suratt->nama }}</p>
                             </td>
@@ -78,6 +89,8 @@
                 <p><strong>Rt:</strong> <span x-text="surattDetail.rt"></span></p>
                 <p><strong>No SK RT:</strong> <span x-text="surattDetail.no_sk_rt"></span></p>
                 <p><strong>Tanggal SK:</strong> <span x-text="surattDetail.tanggal_sk"></span></p>
+                <p><strong>Nomor Surat:</strong> <span x-text="surattDetail.nomor_surat"></span></p>
+                <p><strong>Tanggal Surat:</strong> <span x-text="surattDetail.tanggal_surat"></span></p>
                 <p><strong>KASI:</strong> <span x-text="surattDetail.kasi ? surattDetail.kasi.nama : 'N/A'"></span></p>
             </div>
             <div class="text-right">
@@ -86,17 +99,29 @@
         </div>
     </div>
 
-    <!-- Modal Edit -->
-    <div x-show="showEditModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white rounded-lg shadow-lg w-1/3 p-6">
-            <h2 class="text-xl font-bold mb-4">Edit Surat Keterangan Usaha</h2>
-            <form :action="`{{ route('Staff.surat_keterangan_usaha.update', '') }}/${editSuratt.id}`" method="POST">
-                @csrf
-                @method('PUT')
+   <!-- Modal Edit -->
+<div x-show="showEditModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 overflow-y-auto">
+    <div class="bg-white rounded-lg shadow-lg w-full max-w-4xl mx-auto p-6 my-8">
+        <h2 class="text-2xl font-bold mb-4 text-center">Edit Surat Keterangan Usaha</h2>
+        <form :action="`{{ route('Staff.surat_keterangan_usaha.update', '') }}/${editSuratt.id}`" method="POST">
+            @csrf
+            @method('PUT')
+
+            <!-- Kontainer Scrollable -->
+            <div class="max-h-[75vh] overflow-y-auto px-2">
+                <!-- Nomor SK Kelurahan (read-only) -->
+                <div class="mb-4">
+                    <label for="edit_no_sk_kelurahan" class="block text-sm font-medium text-gray-700">Nomor SK Kelurahan</label>
+                    <input type="text" name="no_sk_kelurahan" id="edit_no_sk_kelurahan" x-model="editSuratt.id" class="mt-1 p-2 w-full border rounded-md bg-gray-100" readonly>
+                </div>
+
+                <!-- Nama Pemohon -->
                 <div class="mb-4">
                     <label for="edit_nama" class="block text-sm font-medium text-gray-700">Nama Pemohon</label>
                     <input type="text" name="nama" id="edit_nama" x-model="editSuratt.nama" class="mt-1 p-2 w-full border rounded-md" required>
                 </div>
+
+                <!-- Jenis Kelamin -->
                 <div class="mb-4">
                     <label for="edit_jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
                     <select name="jenis_kelamin" id="edit_jenis_kelamin" x-model="editSuratt.jenis_kelamin" class="mt-1 p-2 w-full border rounded-md" required>
@@ -104,21 +129,89 @@
                         <option value="Perempuan">Perempuan</option>
                     </select>
                 </div>
+
+                <!-- Tempat Lahir -->
+                <div class="mb-4">
+                    <label for="edit_tempat_lahir" class="block text-sm font-medium text-gray-700">Tempat Lahir</label>
+                    <input type="text" name="tempat_lahir" id="edit_tempat_lahir" x-model="editSuratt.tempat_lahir" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- Tanggal Lahir -->
+                <div class="mb-4">
+                    <label for="edit_tanggal_lahir" class="block text-sm font-medium text-gray-700">Tanggal Lahir</label>
+                    <input type="date" name="tanggal_lahir" id="edit_tanggal_lahir" x-model="editSuratt.tanggal_lahir" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- Agama -->
+                <div class="mb-4">
+                    <label for="edit_agama" class="block text-sm font-medium text-gray-700">Agama</label>
+                    <input type="text" name="agama" id="edit_agama" x-model="editSuratt.agama" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- Pekerjaan -->
                 <div class="mb-4">
                     <label for="edit_pekerjaan" class="block text-sm font-medium text-gray-700">Pekerjaan</label>
                     <input type="text" name="pekerjaan" id="edit_pekerjaan" x-model="editSuratt.pekerjaan" class="mt-1 p-2 w-full border rounded-md">
                 </div>
+
+                <!-- Alamat -->
                 <div class="mb-4">
                     <label for="edit_alamat" class="block text-sm font-medium text-gray-700">Alamat</label>
                     <input type="text" name="alamat" id="edit_alamat" x-model="editSuratt.alamat" class="mt-1 p-2 w-full border rounded-md">
                 </div>
-                <div class="text-right">
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg">Simpan Perubahan</button>
-                    <button @click="showEditModal = false" type="button" class="px-4 py-2 bg-red-500 text-white rounded-lg">Batal</button>
+
+                <!-- Usaha -->
+                <div class="mb-4">
+                    <label for="edit_usaha" class="block text-sm font-medium text-gray-700">Usaha</label>
+                    <input type="text" name="usaha" id="edit_usaha" x-model="editSuratt.usaha" class="mt-1 p-2 w-full border rounded-md">
                 </div>
-            </form>
-        </div>
+
+                <!-- Modal Usaha -->
+                <div class="mb-4">
+                    <label for="edit_modal_usaha" class="block text-sm font-medium text-gray-700">Modal Usaha</label>
+                    <input type="number" name="modal_usaha" id="edit_modal_usaha" x-model="editSuratt.modal_usaha" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- Alamat Usaha -->
+                <div class="mb-4">
+                    <label for="edit_alamat_usaha" class="block text-sm font-medium text-gray-700">Alamat Usaha</label>
+                    <input type="text" name="alamat_usaha" id="edit_alamat_usaha" x-model="editSuratt.alamat_usaha" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- No SK RT -->
+                <div class="mb-4">
+                    <label for="edit_no_sk_rt" class="block text-sm font-medium text-gray-700">No SK RT</label>
+                    <input type="text" name="no_sk_rt" id="edit_no_sk_rt" x-model="editSuratt.no_sk_rt" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- RT -->
+                <div class="mb-4">
+                    <label for="edit_rt" class="block text-sm font-medium text-gray-700">RT</label>
+                    <input type="text" name="rt" id="edit_rt" x-model="editSuratt.rt" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- Tanggal SK -->
+                <div class="mb-4">
+                    <label for="edit_tanggal_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
+                    <input type="date" name="tanggal_sk" id="edit_tanggal_sk" x-model="editSuratt.tanggal_sk" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+
+                <!-- Nomor Surat -->
+                <div class="mb-4">
+                    <label for="edit_nomor_surat" class="block text-sm font-medium text-gray-700">Nomor Surat</label>
+                    <input type="teks" name="nomor_surat" id="edit_nomor_surat" x-model="editSuratt.nomor_surat" class="mt-1 p-2 w-full border rounded-md">
+                </div>
+            </div>
+
+            <!-- Tombol Submit -->
+            <div class="mt-6 text-right">
+                <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200">Simpan Perubahan</button>
+                <button @click="showEditModal = false" type="button" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition duration-200">Batal</button>
+            </div>
+        </form>
     </div>
+</div>
+
 </div>
 
 @endsection

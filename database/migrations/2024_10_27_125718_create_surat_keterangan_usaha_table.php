@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string('rt');
             $table->string('no_sk_rt');
             $table->date('tanggal_sk');
+            $table->string('nomor_surat');
+            $table->date('tanggal_surat');
             $table->unsignedBigInteger('kasi_id');
             $table->foreign('kasi_id')->references('id')->on('kasis');
             $table->timestamps();

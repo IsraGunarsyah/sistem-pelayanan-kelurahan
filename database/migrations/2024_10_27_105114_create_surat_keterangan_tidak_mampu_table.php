@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('keterangan');
             $table->string('keperluan');
             $table->date('tanggal_surat');
+            $table->string('nomor_surat');
             $table->unsignedBigInteger('kasi_id'); // ID dari tabel Kasi
             $table->timestamps();
 

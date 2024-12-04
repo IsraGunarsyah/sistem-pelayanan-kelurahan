@@ -22,6 +22,7 @@
             <div>
                 <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
                 <select name="jenis_kelamin" id="jenis_kelamin" class="mt-1 p-2 w-full border rounded-md" required>
+                    <option value="">Pilih Jenis Kelamin</option> <!-- Option for "Choose Gender" -->
                     <option value="Laki-laki">Laki-laki</option>
                     <option value="Perempuan">Perempuan</option>
                 </select>
@@ -53,35 +54,48 @@
         </div>
 
         <!-- Informasi Tambahan -->
-        <h2 class="text-lg font-semibold mt-8 mb-4">Informasi Tambahan</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-                <label for="rt" class="block text-sm font-medium text-gray-700">RT</label>
-                <select name="rt" id="rt" class="mt-1 p-2 w-full border rounded-md" required onchange="generateNoSkRt()">
-                    <option value="">Pilih RT</option>
-                    @for ($i = 1; $i <= 33; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor
-                </select>
-            </div>
-            <div>
-                <label for="no_sk_rt" class="block text-sm font-medium text-gray-700">NO SK RT</label>
-                <input type="text" name="no_sk_rt" id="no_sk_rt" class="mt-1 p-2 w-full border rounded-md" readonly required>
-            </div>
-            <div>
-                <label for="tanggal_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
-                <input type="date" name="tanggal_sk" id="tanggal_sk" class="mt-1 p-2 w-full border rounded-md" required>
-            </div>
-            <!-- Nama Pelapor -->
-            <div class="col-span-1 md:col-span-3">
-                <label for="nama_pelapor" class="block text-sm font-medium text-gray-700">Nama Pelapor</label>
-                <input type="text" name="nama_pelapor" id="nama_pelapor" class="mt-1 p-2 w-full border rounded-md" required>
-            </div>
-            <!-- Hubungan dengan Orang yang Meninggal -->
-            <div class="col-span-1 md:col-span-3">
-                <label for="hubungan" class="block text-sm font-medium text-gray-700">Hubungan dengan yang Meninggal</label>
-                <input type="text" name="hubungan" id="hubungan" class="mt-1 p-2 w-full border rounded-md" required>
-            </div>
+      <!-- Informasi Tambahan -->
+<h2 class="text-lg font-semibold mt-8 mb-4">Informasi Tambahan</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+        <label for="rt" class="block text-sm font-medium text-gray-700">RT</label>
+        <select name="rt" id="rt" class="mt-1 p-2 w-full border rounded-md" required onchange="updateCombinedSkRt()">
+            <option value="">Pilih RT</option>
+            @for ($i = 1; $i <= 33; $i++)
+                <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
+            @endfor
+        </select>
+    </div>
+    <div>
+        <label for="no_sk_rt" class="block text-sm font-medium text-gray-700">NO SK RT</label>
+        <input type="text" name="no_sk_rt" id="no_sk_rt" class="mt-1 p-2 w-full border rounded-md" oninput="updateCombinedSkRt()" required>
+    </div>
+    <div>
+        <label for="combined_sk_rt" class="block text-sm font-medium text-gray-700">RT dan NO SK RT</label>
+        <input type="text" id="combined_sk_rt" class="mt-1 p-2 w-full border rounded-md bg-gray-100" readonly>
+    </div>
+    <div>
+        <label for="tanggal_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
+        <input type="date" name="tanggal_sk" id="tanggal_sk" class="mt-1 p-2 w-full border rounded-md" required>
+    </div>
+    <!-- Tambahkan Nomor Surat -->
+    <div>
+        <label for="nomor_surat" class="block text-sm font-medium text-gray-700">Nomor Surat</label>
+        <input type="text" name="nomor_surat" id="nomor_surat" class="mt-1 p-2 w-full border rounded-md" required>
+    </div>
+</div>
+
+
+        <!-- Nama Pelapor -->
+        <div class="col-span-1 md:col-span-3">
+            <label for="nama_pelapor" class="block text-sm font-medium text-gray-700">Nama Pelapor</label>
+            <input type="text" name="nama_pelapor" id="nama_pelapor" class="mt-1 p-2 w-full border rounded-md" required>
+        </div>
+
+        <!-- Hubungan dengan Orang yang Meninggal -->
+        <div class="col-span-1 md:col-span-3">
+            <label for="hubungan" class="block text-sm font-medium text-gray-700">Hubungan dengan yang Meninggal</label>
+            <input type="text" name="hubungan" id="hubungan" class="mt-1 p-2 w-full border rounded-md" required>
         </div>
 
         <!-- KASI yang bertanggung jawab -->
@@ -120,21 +134,17 @@
         document.getElementById('nip').value = selectedOption.getAttribute('data-nip');
     }
 
-    async function generateNoSkRt() {
+    function updateCombinedSkRt() {
         const rt = document.getElementById('rt').value;
-        const type = 'keterangan_kematian';
-        if (!rt) {
-            document.getElementById('no_sk_rt').value = "";  // Reset nomor SK jika RT tidak dipilih
-            return;
-        }
-        try {
-            const timestamp = new Date().getTime();  // Hindari cache dengan timestamp
-            const response = await fetch(`/staff/generate-no-sk-rt/${rt}/${type}?t=${timestamp}`);
-            const data = await response.json();
-            document.getElementById('no_sk_rt').value = data.no_sk_rt;
-        } catch (error) {
-            console.error("Error generating no_sk_rt:", error);
+        const noSkRt = document.getElementById('no_sk_rt').value;
+        const combinedSkRt = document.getElementById('combined_sk_rt');
+
+        if (rt && noSkRt) {
+            combinedSkRt.value = `${rt}/${noSkRt}/KEL-TLI`;
+        } else {
+            combinedSkRt.value = "";
         }
     }
 </script>
+
 @endsection

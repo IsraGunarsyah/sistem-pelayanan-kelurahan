@@ -85,16 +85,20 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
                 <label for="rt" class="block text-sm font-medium text-gray-700">RT</label>
-                <select name="rt" id="rt" class="mt-1 p-2 w-full border rounded-md" required onchange="generateNoSkRt('keterangan_tidak_mampu')">
+                <select name="rt" id="rt" class="mt-1 p-2 w-full border rounded-md" required onchange="updateRtSkDetails()">
                     <option value="">Pilih RT</option>
                     @for ($i = 1; $i <= 33; $i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
+                        <option value="{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}">{{ str_pad($i, 2, '0', STR_PAD_LEFT) }}</option>
                     @endfor
                 </select>
-            </div>
+            </div>            
             <div>
                 <label for="no_sk_rt" class="block text-sm font-medium text-gray-700">NO SK RT</label>
-                <input type="text" name="no_sk_rt" id="no_sk_rt" class="mt-1 p-2 w-full border rounded-md" readonly required>
+                <input type="text" name="no_sk_rt" id="no_sk_rt" class="mt-1 p-2 w-full border rounded-md" required oninput="updateRtSkDetails()">
+            </div>
+            <div>
+                <label for="combined_sk_rt" class="block text-sm font-medium text-gray-700">RT dan NO SK RT</label>
+                <input type="text" name="combined_sk_rt" id="combined_sk_rt" class="mt-1 p-2 w-full border rounded-md bg-gray-100" readonly>
             </div>
             <div>
                 <label for="tanggal_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
@@ -107,6 +111,10 @@
             <div>
                 <label for="keperluan" class="block text-sm font-medium text-gray-700">Keperluan</label>
                 <input type="text" name="keperluan" id="keperluan" class="mt-1 p-2 w-full border rounded-md" required>
+            </div>
+            <div>
+                <label for="nomor_surat" class="block text-sm font-medium text-gray-700">Nomor Surat</label>
+                <input type="text" name="nomor_surat" id="nomor_surat" class="mt-1 p-2 w-full border rounded-md" required>
             </div>
             <div>
                 <label for="tanggal_surat" class="block text-sm font-medium text-gray-700">Tanggal Surat</label>
@@ -151,27 +159,16 @@
         document.getElementById('nip').value = selectedOption.getAttribute('data-nip');
     }
 
-    async function generateNoSkRt(type) {
-        const rt = document.getElementById('rt').value;
+    function updateRtSkDetails() {
+    const rt = document.getElementById('rt').value;
+    const noSkRt = document.getElementById('no_sk_rt').value;
 
-        if (!rt) {
-            document.getElementById('no_sk_rt').value = "";  // Reset nomor SK jika RT tidak dipilih
-            return;
-        }
-
-        try {
-            const timestamp = new Date().getTime();
-            const response = await fetch(`/staff/generate-no-sk-rt/${rt}/${type}?t=${timestamp}`);
-            
-            if (!response.ok) {
-                throw new Error("HTTP error " + response.status);
-            }
-
-            const data = await response.json();
-            document.getElementById('no_sk_rt').value = data.no_sk_rt;
-        } catch (error) {
-            console.error("Error generating no_sk_rt:", error);
-        }
+    if (rt && noSkRt) {
+        document.getElementById('combined_sk_rt').value = `${rt}/${noSkRt}/KEL-TLI`;
+    } else {
+        document.getElementById('combined_sk_rt').value = "";
     }
+}
+
 </script>
 @endsection

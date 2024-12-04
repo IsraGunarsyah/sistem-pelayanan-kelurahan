@@ -21,8 +21,9 @@ class CreateSuratKeteranganKematianTable extends Migration
             $table->integer('rt');
             $table->string('no_sk_rt');
             $table->date('tanggal_sk');
-            $table->string('nama_pelapor'); // Kolom untuk nama pelapor
-            $table->string('hubungan'); // Kolom untuk hubungan dengan yang meninggal
+            $table->string('nomor_surat');
+            $table->string('nama_pelapor'); 
+            $table->string('hubungan'); 
             $table->unsignedBigInteger('kasi_id');
             $table->foreign('kasi_id')->references('id')->on('kasis')->onDelete('cascade');
             $table->timestamps();

@@ -30,31 +30,63 @@ class RiwayatController extends Controller
     }
 
      
-     public function update(Request $request, $id)
-     {
-         $request->validate([
-             'nama' => 'required|string|max:255',
-             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-             'pekerjaan' => 'nullable|string|max:255',
-             'alamat' => 'nullable|string|max:255',
-         ]);
- 
-         $surat = SuratKeteranganTidakMampu::findOrFail($id);
-         $surat->update($request->only('nama', 'jenis_kelamin', 'pekerjaan', 'alamat'));
- 
-         return redirect()->route('Staff.riwayat.tidak_mampu')
-                          ->with('success', 'Data surat berhasil diperbarui.');
-     }
- 
-     
-     public function destroy($id)
-     {
-         $surat = SuratKeteranganTidakMampu::findOrFail($id);
-         $surat->delete();
- 
-         return redirect()->route('Staff.riwayat.tidak_mampu')
-                          ->with('success', 'Surat berhasil dihapus.');
-     }
+    public function update(Request $request, $id)
+{
+    // Validasi input
+    $request->validate([
+        'nama' => 'required|string|max:255',
+        'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+        'tempat_lahir' => 'nullable|string|max:255',
+        'tanggal_lahir' => 'nullable|date',
+        'pekerjaan' => 'nullable|string|max:255',
+        'alamat' => 'nullable|string|max:255',
+        'nama_keluarga' => 'nullable|string|max:255',
+        'jenis_kelamin_keluarga' => 'nullable|in:Laki-laki,Perempuan',
+        'tempat_lahir_keluarga' => 'nullable|string|max:255',
+        'tanggal_lahir_keluarga' => 'nullable|date',
+        'pekerjaan_keluarga' => 'nullable|string|max:255',
+        'alamat_keluarga' => 'nullable|string|max:255',
+        'no_sk_rt' => 'nullable|string|max:255',
+        'rt' => 'nullable|string|max:255',
+        'tanggal_sk' => 'nullable|date',
+        'tanggal_surat' => 'nullable|date',
+        'keperluan' => 'nullable|string|max:255',
+        'keterangan' => 'nullable|string',
+        'nomor_surat' => 'nullable|string',
+    ]);
+
+    // Temukan surat berdasarkan ID
+    $surat = SuratKeteranganTidakMampu::findOrFail($id);
+
+    // Update data surat
+    $surat->update($request->only([
+        'nama',
+        'jenis_kelamin',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'pekerjaan',
+        'alamat',
+        'nama_keluarga',
+        'jenis_kelamin_keluarga',
+        'tempat_lahir_keluarga',
+        'tanggal_lahir_keluarga',
+        'pekerjaan_keluarga',
+        'alamat_keluarga',
+        'no_sk_rt',
+        'rt',
+        'tanggal_sk',
+        'tanggal_surat',
+        'keperluan',
+        'keterangan',
+        'nomor_surat',
+    ]));
+
+    // Redirect kembali ke halaman riwayat dengan pesan sukses
+    return redirect()
+        ->route('Staff.riwayat.tidak_mampu')
+        ->with('success', 'Data surat berhasil diperbarui.');
+}
+
  
 
     // usaha
@@ -76,20 +108,51 @@ class RiwayatController extends Controller
 
 
     public function updateUsaha(Request $request, $id)
-     {
-         $request->validate([
-             'nama' => 'required|string|max:255',
-             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-             'pekerjaan' => 'nullable|string|max:255',
-             'alamat' => 'nullable|string|max:255',
-         ]);
- 
-         $suratt = SuratKeteranganUsaha::findOrFail($id);
-         $suratt->update($request->only('nama', 'jenis_kelamin', 'pekerjaan', 'alamat'));
- 
-         return redirect()->route('Staff.riwayat.usaha')
-                          ->with('success', 'Data surat berhasil diperbarui.');
-     }
+    {
+        // Validasi data
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'tempat_lahir' => 'nullable|string|max:255',
+            'tanggal_lahir' => 'nullable|date',
+            'agama' => 'nullable|string|max:255',
+            'pekerjaan' => 'nullable|string|max:255',
+            'alamat' => 'nullable|string|max:255',
+            'usaha' => 'nullable|string|max:255',
+            'modal_usaha' => 'nullable|numeric',
+            'alamat_usaha' => 'nullable|string|max:255',
+            'no_sk_rt' => 'nullable|string|max:255',
+            'rt' => 'nullable|string|max:10',
+            'tanggal_sk' => 'nullable|date',
+            'nomor_surat' => 'nullable|string|max:255',
+        ]);
+    
+        // Temukan data surat berdasarkan ID
+        $suratt = SuratKeteranganUsaha::findOrFail($id);
+    
+        // Perbarui data dengan input dari request
+        $suratt->update([
+            'nama' => $request->nama,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'agama' => $request->agama,
+            'pekerjaan' => $request->pekerjaan,
+            'alamat' => $request->alamat,
+            'usaha' => $request->usaha,
+            'modal_usaha' => $request->modal_usaha,
+            'alamat_usaha' => $request->alamat_usaha,
+            'no_sk_rt' => $request->no_sk_rt,
+            'rt' => $request->rt,
+            'tanggal_sk' => $request->tanggal_sk,
+            'nomor_surat' => $request->nomor_surat,
+        ]);
+    
+        // Redirect dengan pesan sukses
+        return redirect()->route('Staff.riwayat.usaha')
+                         ->with('success', 'Data surat berhasil diperbarui.');
+    }
+    
  
      
      public function destroyUsaha($id)
@@ -129,14 +192,42 @@ class RiwayatController extends Controller
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'pekerjaan' => 'nullable|string|max:255',
             'alamat' => 'nullable|string|max:255',
+            'hari_kematian' => 'nullable|string|max:255',
+            'tanggal_kematian' => 'nullable|date',
+            'tempat_kematian' => 'nullable|string|max:255',
+            'sebab_kematian' => 'nullable|string|max:255',
+            'nama_pelapor' => 'nullable|string|max:255',
+            'hubungan' => 'nullable|string|max:255',
+            'rt' => 'nullable|integer',
+            'no_sk_rt' => 'nullable|string|max:255',
+            'tanggal_sk' => 'nullable|date',
+            'nomor_surat' => 'nullable|string',
         ]);
-
+    
         $surattt = SuratKeteranganKematian::findOrFail($id);
-        $surattt->update($request->only('nama', 'jenis_kelamin', 'pekerjaan', 'alamat'));
-
+    
+        // Update semua field yang sesuai
+        $surattt->update($request->only(
+            'nama',
+            'jenis_kelamin',
+            'pekerjaan',
+            'alamat',
+            'hari_kematian',
+            'tanggal_kematian',
+            'tempat_kematian',
+            'sebab_kematian',
+            'nama_pelapor',
+            'hubungan',
+            'rt',
+            'no_sk_rt',
+            'tanggal_sk',
+            'nomor_surat',
+        ));
+    
         return redirect()->route('Staff.riwayat.kematian')
                          ->with('success', 'Data surat berhasil diperbarui.');
     }
+    
 
     
     public function destroyKematian($id)

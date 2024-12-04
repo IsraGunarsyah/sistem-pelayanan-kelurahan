@@ -101,7 +101,7 @@
     <!-- Judul Surat -->
     <div class="title">
         <h3>SURAT KETERANGAN TIDAK MAMPU</h3>
-        <p>Nomor: {{ $surat->no_sk_rt }}</p>
+        <p>Nomor: {{ $surat->nomor_surat }}/{{ $surat->id }}/KEL-TLI</p>
     </div>
 
     <!-- Isi Surat -->
@@ -157,10 +157,10 @@
         </table>
 
         <p class="indent">
-            Berdasarkan Surat Pengantar dari Ketua RT Nomor: <strong>{{ $surat->no_sk_rt }} Tanggal 
+            Berdasarkan Surat Pengantar dari Ketua RT Nomor: <strong>{{ $surat->no_sk_rt }}/{{ $surat->rt }}/KEL-TLI Tanggal 
                 {{ \Carbon\Carbon::parse($surat->tanggal_sk)->translatedFormat('d F Y') }}</strong>, 
                 Kelurahan Tanjung Laut Indah Kecamatan Bontang Selatan, bahwa nama tersebut di atas adalah benar Keluarga 
-                Tidak Mampu ({{ $surat->status }}). Surat Keterangan ini diberikan untuk keperluan <strong> {{ $surat->keperluan }}.</strong>
+                Tidak Mampu ({{ $surat->keterangan }}). Surat Keterangan ini diberikan untuk keperluan <strong> {{ $surat->keperluan }}.</strong>
         </p>
 
         <p>Demikian Surat Keterangan ini diberikan untuk dipergunakan sebagaimana mestinya.</p>

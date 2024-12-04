@@ -14,10 +14,24 @@ class SuratKeteranganUsaha extends Model
 
     // Kolom yang dapat diisi
     protected $fillable = [
-        'nama', 'jenis_kelamin', 'tempat_lahir', 'tanggal_lahir', 
-        'agama', 'pekerjaan', 'alamat', 'usaha', 'modal_usaha', 
-        'alamat_usaha', 'rt', 'no_sk_rt', 'tanggal_sk', 'kasi_id'
+        'nama',
+        'jenis_kelamin',
+        'tempat_lahir',
+        'tanggal_lahir',
+        'agama',
+        'pekerjaan',
+        'alamat',
+        'usaha',
+        'modal_usaha',
+        'alamat_usaha',
+        'rt',
+        'no_sk_rt',
+        'tanggal_sk',
+        'nomor_surat', 
+        'tanggal_surat',
+        'kasi_id',
     ];
+    
 
     // Relasi ke model Kasi
     public function kasi()

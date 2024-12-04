@@ -19,10 +19,11 @@
         <div>
             <label for="jenis_kelamin" class="block text-sm font-medium text-gray-700">Jenis Kelamin</label>
             <select name="jenis_kelamin" id="jenis_kelamin" class="mt-1 p-2 w-full border rounded-md" required>
+                <option value="">Pilih Jenis Kelamin</option> <!-- Opsi kosong untuk validasi -->
                 <option value="Laki-laki">Laki-laki</option>
                 <option value="Perempuan">Perempuan</option>
             </select>
-        </div>
+        </div>        
         <div>
             <label for="tempat_lahir" class="block text-sm font-medium text-gray-700">Tempat Lahir</label>
             <input type="text" name="tempat_lahir" id="tempat_lahir" class="mt-1 p-2 w-full border rounded-md" required>
@@ -65,23 +66,37 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
             <label for="rt" class="block text-sm font-medium text-gray-700">RT</label>
-            <select name="rt" id="rt" class="mt-1 p-2 w-full border rounded-md" required>
-                <option value="">Pilih RT</option> <!-- Tambahkan opsi default -->
+            <select name="rt" id="rt" class="mt-1 p-2 w-full border rounded-md" required onchange="updateCombinedRtSk()">
+                <option value="">Pilih RT</option>
                 @for ($i = 1; $i <= 33; $i++)
-                    <option value="{{ $i }}">{{ $i }}</option>
+                    <option value="{{ sprintf('%02d', $i) }}">{{ sprintf('%02d', $i) }}</option>
                 @endfor
             </select>
-        </div>
-        
+        </div>  
         <div>
             <label for="no_sk_rt" class="block text-sm font-medium text-gray-700">NO SK RT</label>
-            <input type="text" name="no_sk_rt" id="no_sk_rt" class="mt-1 p-2 w-full border rounded-md" readonly required>
+            <input type="text" name="no_sk_rt" id="no_sk_rt" class="mt-1 p-2 w-full border rounded-md" required oninput="updateCombinedRtSk()">
+        </div>
+        <div>
+            <label for="combined_rt_sk" class="block text-sm font-medium text-gray-700">RT dan NO SK RT</label>
+            <input type="text" id="combined_rt_sk" class="mt-1 p-2 w-full border rounded-md bg-gray-100" readonly>
         </div>
         <div>
             <label for="tanggal_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
             <input type="date" name="tanggal_sk" id="tanggal_sk" class="mt-1 p-2 w-full border rounded-md" required>
         </div>
+        <!-- Tambahan Nomor Surat -->
+        <div>
+            <label for="nomor_surat" class="block text-sm font-medium text-gray-700">Nomor Surat</label>
+            <input type="text" name="nomor_surat" id="nomor_surat" class="mt-1 p-2 w-full border rounded-md" required>
+        </div>
+        <!-- Tambahan Tanggal Surat -->
+        <div>
+            <label for="tanggal_surat" class="block text-sm font-medium text-gray-700">Tanggal Surat</label>
+            <input type="date" name="tanggal_surat" id="tanggal_surat" class="mt-1 p-2 w-full border rounded-md" required>
+        </div>
     </div>
+    
 
     <h2 class="text-lg font-semibold mt-8 mb-4">KASI yang Bertanggung Jawab</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -117,31 +132,14 @@
         document.getElementById('nip').value = selectedOption.getAttribute('data-nip');
     }
 
-    document.getElementById('rt').addEventListener('change', function() {
-        const rt = this.value;
-        const type = 'keterangan_usaha';  // Jenis surat yang sedang dibuat
+    function updateCombinedRtSk() {
+        const rt = document.getElementById('rt').value;
+        const noSkRt = document.getElementById('no_sk_rt').value;
 
-        if (rt === "") {
-            document.getElementById('no_sk_rt').value = "";  // Reset nomor SK jika RT tidak dipilih
+        if (rt && noSkRt) {
+            document.getElementById('combined_rt_sk').value = `${rt}/${noSkRt}/KEL-TLI`;
         } else {
-            generateNoSkRt(rt, type);
-        }
-    });
-
-
-    async function generateNoSkRt(rt, type) {
-        try {
-            const timestamp = new Date().getTime();  // Tambahkan timestamp untuk menghindari cache
-            const response = await fetch(`/staff/generate-no-sk-rt/${rt}/${type}?t=${timestamp}`);
-            
-            if (!response.ok) {
-                throw new Error("HTTP error " + response.status);
-            }
-
-            const data = await response.json();
-            document.getElementById('no_sk_rt').value = data.no_sk_rt;
-        } catch (error) {
-            console.error("Error generating no_sk_rt:", error);
+            document.getElementById('combined_rt_sk').value = '';
         }
     }
 </script>

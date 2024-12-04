@@ -23,10 +23,12 @@ class SuratKeteranganKematian extends Model
         'rt',
         'no_sk_rt',
         'tanggal_sk',
+        'nomor_surat', 
         'nama_pelapor', 
         'hubungan',     
         'kasi_id',
     ];
+    
 
     public function kasi()
     {
