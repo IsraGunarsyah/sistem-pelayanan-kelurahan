@@ -54,8 +54,8 @@
         </div>
         <div>
             <label for="modal_usaha" class="block text-sm font-medium text-gray-700">Modal Usaha</label>
-            <input type="number" name="modal_usaha" id="modal_usaha" class="mt-1 p-2 w-full border rounded-md" required>
-        </div>
+            <input type="text" name="modal_usaha" id="modal_usaha" class="mt-1 p-2 w-full border rounded-md" required>
+        </div>        
         <div>
             <label for="alamat_usaha" class="block text-sm font-medium text-gray-700">Alamat Usaha</label>
             <input type="text" name="alamat_usaha" id="alamat_usaha" class="mt-1 p-2 w-full border rounded-md" required>
@@ -85,11 +85,7 @@
             <label for="tanggal_sk" class="block text-sm font-medium text-gray-700">Tanggal SK</label>
             <input type="date" name="tanggal_sk" id="tanggal_sk" class="mt-1 p-2 w-full border rounded-md" required>
         </div>
-        <!-- Tambahan Nomor Surat -->
-        <div>
-            <label for="nomor_surat" class="block text-sm font-medium text-gray-700">Nomor Surat</label>
-            <input type="text" name="nomor_surat" id="nomor_surat" class="mt-1 p-2 w-full border rounded-md" required>
-        </div>
+        <input type="hidden" name="nomor_surat" value="510">
         <!-- Tambahan Tanggal Surat -->
         <div>
             <label for="tanggal_surat" class="block text-sm font-medium text-gray-700">Tanggal Surat</label>

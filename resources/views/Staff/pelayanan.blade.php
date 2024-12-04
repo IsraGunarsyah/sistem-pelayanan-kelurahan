@@ -69,27 +69,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Card 4 -->
-                <div class="card card-plain card-blog mt-5">
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-4/12">
-                            <div class="relative rounded-lg overflow-hidden">
-                                <img class="w-full h-auto rounded-lg shadow-md" src="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/color-stair.jpg" alt="Image">
-                            </div>
-                        </div>
-                        <div class="w-full md:w-7/12 md:ml-6 mt-4 md:mt-0">
-                            <h3 class="text-gray-800 font-semibold text-xl mb-2">
-                                <a href="javascript:;" class="hover:text-blue-500">Surat Nikah</a>
-                            </h3>
-                            <p class="text-gray-600 mb-4">
-                                New advancements in fintech are reshaping the financial sector, providing new opportunities for growth, and making online shopping more accessible and secure for everyone.
-                            </p>
-                            <!-- Button Buat Surat -->
-                            <a href="javascript:;" class="inline-block px-6 py-2 text-white font-semibold bg-blue-500 rounded-lg shadow hover:bg-blue-600 transition-colors duration-150 ease-in-out">Buat Surat</a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

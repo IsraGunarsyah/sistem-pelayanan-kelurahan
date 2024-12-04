@@ -79,10 +79,7 @@
         <input type="date" name="tanggal_sk" id="tanggal_sk" class="mt-1 p-2 w-full border rounded-md" required>
     </div>
     <!-- Tambahkan Nomor Surat -->
-    <div>
-        <label for="nomor_surat" class="block text-sm font-medium text-gray-700">Nomor Surat</label>
-        <input type="text" name="nomor_surat" id="nomor_surat" class="mt-1 p-2 w-full border rounded-md" required>
-    </div>
+    <input type="hidden" name="nomor_surat" value="473.3">
 </div>
 
 

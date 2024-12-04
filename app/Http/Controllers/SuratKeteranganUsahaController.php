@@ -27,24 +27,27 @@ class SuratKeteranganUsahaController extends Controller
         'pekerjaan' => 'required|string|max:255',
         'alamat' => 'required|string|max:255',
         'usaha' => 'required|string|max:255',
-        'modal_usaha' => 'required|numeric',
+        'modal_usaha' => 'required|string|max:255', 
         'alamat_usaha' => 'required|string|max:255',
         'rt' => 'required|string|max:255',
         'no_sk_rt' => 'required|string|max:255',
         'tanggal_sk' => 'required|date',
-        'nomor_surat' => 'required|string|max:255',
         'tanggal_surat' => 'required|date',
+        'nomor_surat' => 'required|string|max:50',
         'kasi_id' => 'required|exists:kasis,id',
     ]);
+    
 
     // Simpan ke database
     try {
         SuratKeteranganUsaha::create($validatedData);
-        return redirect()->route('Staff.surat_keterangan_usaha.index')->with('success', 'Surat Keterangan Usaha berhasil dibuat.');
+
+        return redirect()->route('Staff.surat_keterangan_usaha.index')
+                         ->with('success', 'Surat Keterangan Usaha berhasil dibuat.');
     } catch (\Exception $e) {
-        Log::error('Gagal menyimpan data ke database: ' . $e->getMessage());
-        return back()->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi.');
+        return back()->with('error', 'Terjadi kesalahan saat menyimpan data.');
     }
 }
+
 
 }

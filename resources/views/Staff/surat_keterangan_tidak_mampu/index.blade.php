@@ -112,10 +112,7 @@
                 <label for="keperluan" class="block text-sm font-medium text-gray-700">Keperluan</label>
                 <input type="text" name="keperluan" id="keperluan" class="mt-1 p-2 w-full border rounded-md" required>
             </div>
-            <div>
-                <label for="nomor_surat" class="block text-sm font-medium text-gray-700">Nomor Surat</label>
-                <input type="text" name="nomor_surat" id="nomor_surat" class="mt-1 p-2 w-full border rounded-md" required>
-            </div>
+            <input type="hidden" name="nomor_surat" value="470">
             <div>
                 <label for="tanggal_surat" class="block text-sm font-medium text-gray-700">Tanggal Surat</label>
                 <input type="date" name="tanggal_surat" id="tanggal_surat" class="mt-1 p-2 w-full border rounded-md" required>

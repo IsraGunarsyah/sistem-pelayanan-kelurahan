@@ -52,7 +52,6 @@ class RiwayatController extends Controller
         'tanggal_surat' => 'nullable|date',
         'keperluan' => 'nullable|string|max:255',
         'keterangan' => 'nullable|string',
-        'nomor_surat' => 'nullable|string',
     ]);
 
     // Temukan surat berdasarkan ID
@@ -78,7 +77,6 @@ class RiwayatController extends Controller
         'tanggal_surat',
         'keperluan',
         'keterangan',
-        'nomor_surat',
     ]));
 
     // Redirect kembali ke halaman riwayat dengan pesan sukses
@@ -87,6 +85,14 @@ class RiwayatController extends Controller
         ->with('success', 'Data surat berhasil diperbarui.');
 }
 
+public function destroy($id)
+     {
+         $surat = SuratKeteranganTidakMampu::findOrFail($id);
+         $surat->delete();
+ 
+         return redirect()->route('Staff.riwayat.tidak_mampu')
+                          ->with('success', 'Surat berhasil dihapus.');
+     }
  
 
     // usaha
@@ -124,7 +130,6 @@ class RiwayatController extends Controller
             'no_sk_rt' => 'nullable|string|max:255',
             'rt' => 'nullable|string|max:10',
             'tanggal_sk' => 'nullable|date',
-            'nomor_surat' => 'nullable|string|max:255',
         ]);
     
         // Temukan data surat berdasarkan ID
@@ -145,7 +150,6 @@ class RiwayatController extends Controller
             'no_sk_rt' => $request->no_sk_rt,
             'rt' => $request->rt,
             'tanggal_sk' => $request->tanggal_sk,
-            'nomor_surat' => $request->nomor_surat,
         ]);
     
         // Redirect dengan pesan sukses
@@ -201,7 +205,7 @@ class RiwayatController extends Controller
             'rt' => 'nullable|integer',
             'no_sk_rt' => 'nullable|string|max:255',
             'tanggal_sk' => 'nullable|date',
-            'nomor_surat' => 'nullable|string',
+            
         ]);
     
         $surattt = SuratKeteranganKematian::findOrFail($id);
@@ -221,7 +225,7 @@ class RiwayatController extends Controller
             'rt',
             'no_sk_rt',
             'tanggal_sk',
-            'nomor_surat',
+           
         ));
     
         return redirect()->route('Staff.riwayat.kematian')
@@ -232,7 +236,7 @@ class RiwayatController extends Controller
     
     public function destroyKematian($id)
     {
-        $surattt = SuratKeteranganTidakMampu::findOrFail($id);
+        $surattt = SuratKeteranganKematian::findOrFail($id);
         $surattt->delete();
 
         return redirect()->route('Staff.riwayat.kematian')

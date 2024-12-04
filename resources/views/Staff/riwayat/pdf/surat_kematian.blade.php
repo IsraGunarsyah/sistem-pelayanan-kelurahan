@@ -101,7 +101,7 @@
     <!-- Judul Surat -->
     <div class="title">
         <h3>SURAT KETERANGAN KEMATIAN</h3>
-        <p>Nomor: {{ $surattt->no_sk_rt }}</p>
+        <p>Nomor: {{ $surattt->nomor_surat }}/{{ $surattt->id }}/KEL-TLI</p>
     </div>
 
     <!-- Isi Surat -->

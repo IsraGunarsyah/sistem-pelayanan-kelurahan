@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('pekerjaan');
             $table->string('alamat');
             $table->string('usaha');
-            $table->decimal('modal_usaha', 15, 2);
+            $table->string('modal_usaha');
             $table->string('alamat_usaha');
             $table->string('rt');
             $table->string('no_sk_rt');

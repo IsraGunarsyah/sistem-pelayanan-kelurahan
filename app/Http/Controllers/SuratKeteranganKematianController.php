@@ -33,7 +33,7 @@ class SuratKeteranganKematianController extends Controller
         'rt' => 'required|string|max:255',
         'no_sk_rt' => 'required|string|max:255',
         'tanggal_sk' => 'required|date',
-        'nomor_surat' => 'required|string|max:50', // Validasi nomor surat
+        'nomor_surat' => 'required|string|max:255', // Validasi nomor surat
         'kasi_id' => 'required|exists:kasis,id',
         'nama_pelapor' => 'required|string|max:255',
         'hubungan' => 'required|string|max:255',

@@ -101,7 +101,7 @@
     <!-- Judul Surat -->
     <div class="title">
         <h3>SURAT KETERANGAN USAHA</h3>
-        <p>Nomor: {{ $suratt->no_sk_rt }}</p>
+        <p>Nomor: {{ $suratt->nomor_surat }}/{{ $suratt->id }}/KEL-TLI</p>
     </div>
 
     <!-- Isi Surat -->
@@ -139,7 +139,7 @@
             Berdasarkan Surat Pengantar RT.<strong> {{ $suratt->rt }} </strong> Nomor: <strong>{{ $suratt->no_sk_rt }}</strong> 
             tanggal <strong>{{ \Carbon\Carbon::parse($suratt->tanggal_sk)->translatedFormat('d F Y') }}</strong>,
              bahwa yang bersangkutan adalah benar berwirausaha yang berlokasi di <strong>{{ $suratt->alamat_usaha }}</strong>. 
-             Surat keterangan ini diberikan untuk keperluan mengurus usaha dari <strong>{{ $suratt->usaha }}</strong> .
+             Surat keterangan ini diberikan untuk keperluan mengurus usaha dari <strong>{{ $suratt->modal_usaha }}</strong> .
         </p>
 
         <p>Demikian surat keterangan ini dibuat untuk dipergunakan sebagaimana mestinya.</p>
